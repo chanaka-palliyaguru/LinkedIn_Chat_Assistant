@@ -35,12 +35,12 @@ Follow these steps to get the chat assistant up and running.
 
 ## Running the Application
 Once you have completed the setup, you can launch the Gradio interface.
-  run python app.py
-  The application will typically run on http://127.0.0.1:7860/ or a similar local address, which will be displayed in your      terminal. Open this URL in your web browser to start interacting with the AI chat assistant.
+  - run python app.py
+The application will typically run on http://127.0.0.1:7860/ or a similar local address, which will be displayed in your      terminal. Open this URL in your web browser to start interacting with the AI chat assistant.
 
 ## Usage
-Text Input: Type your question into the text box and press "Send" or hit Enter.
-Voice Input: The system will automatically detect when you start speaking and when you finish. The animated microphone will indicate that it's listening. Once you stop speaking, your audio will be processed, and the AI will respond.
+- Text Input: Type your question into the text box and press "Send" or hit Enter.
+- Voice Input: The system will automatically detect when you start speaking and when you finish. The animated microphone will indicate that it's listening. Once you stop speaking, your audio will be processed, and the AI will respond.
 
 ## Contributing
 Feel free to fork this repository, submit pull requests, or open issues if you have suggestions or find bugs.
