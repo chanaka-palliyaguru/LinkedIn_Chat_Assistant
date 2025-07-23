@@ -24,7 +24,7 @@ Follow these steps to get the chat assistant up and running.
 1. Clone the Repository
   - git clone https://github.com/chanaka-palliyaguru/LinkedIn_Chat_Assistant.git
   - cd LinkedIn_Chat_Assistant
-2. Create and activate the Virtual Environment
+2. Create and Activate the Virtual Environment
   - python -m venv venv
   - source `venv/bin/activate`  # On Windows: `venv\Scripts\activate`
 3. Install Dependencies
