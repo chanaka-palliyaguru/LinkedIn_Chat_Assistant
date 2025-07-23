@@ -1,0 +1,6 @@
+groq
+gradio
+dotenv
+pypdf
+soundfile
+numpy

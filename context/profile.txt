@@ -1,0 +1,53 @@
+Chanaka Palliyaguru Profile
+
+Profile Summary
+    I'm a passionate and energetic software professional with a strong foundation in computer science and hands-on experience across multiple languages, frameworks, and cloud technologies. 
+    I thrive on exploring new tech, staying curious, and continuously learning to keep up with the ever-evolving digital world.
+    From writing clean code to deploying scalable solutions, I bring both technical expertise and a problem-solving mindset to the table. 
+    I'm not just about code, I’m a strong communicator, a reliable team player, and someone who knows how to manage stakeholders to keep projects moving forward and delivered on time.
+    Whether it's collaborating with cross-functional teams or diving deep into a new tech stack, I bring drive, adaptability, and a results-oriented approach to everything I do.
+
+Work experience
+    Organization - Virtusa
+    Tenure - 4 years 11 months
+    Designations - Associate Consultant(January 2023 - Present), Software Engineer(October 2021 - February 2023), Associate Software Engineer(September 2020 - October 2021)
+
+Education
+    Degree - Bachelor of Science (BSc), Software Engineering (2016 - 2019)
+    University - University of Plymouth, United Kingdom
+
+Core Competencies
+    Software Development
+    API Design & Integration
+    Cloud Technologies
+    Code Quality & Best Practices	
+    Generative & Agentic AI
+    Version Control
+    Continuous Integration & Continuous Delivery (CI/CD)
+    Problem Solving & Critical Thinking	
+    Microservices Architecture
+    Cross-Functional Team Collaboration 
+    Mentoring & Knowledge Sharing Within Teams
+    Adaptability Across Domains & Tech Stacks		
+
+Tools and Technologies
+    Java
+    Python
+    Azure Cloud
+    Spring/ SpringBoot
+    OpenAI/ OpenAI Agents SDK
+    Crew AI/ Groq	
+    Git
+    Github Actions
+    SQL
+    SonarQube
+    Azure DevOps
+    JUnit 
+
+Achievements & Certifications
+    Virtusa Certified Gen AI Assisted Engineer, 2024
+    Virtusa Certified Scrum Master, 2025
+    ETDS-EAG Agentic AI Hackathon Finalist, 2025
+    Top Gun Award – Delivery and Service Excellence Awards FY25H2, 2025
+
+
