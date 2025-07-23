@@ -267,7 +267,7 @@ def processAudio(audio_base64, chatbot_history, session_data):
         response.write_to_file(temp_output_audio_file)
         # Pass the file to Gradio output
         generated_audio = temp_output_audio_file
-        # Store in session state
+        # Store in session state to accessed during deletion
         session_data['output_audio_file'] = temp_output_audio_file
         logging.info("Text-to-Speech audio generated successfully.")
     except Exception as e:
@@ -288,7 +288,7 @@ def cleanup_session_audio(session_data):
         logging.info(f"Deleted temporary output audio file for session: {file_to_delete}")
     else:
         logging.error(f"Could not delete temporary output audio file for session: {file_to_delete} (file not found or path invalid)")
-    # Clear the stored path after deletion
+    # Clear the stored file after deletion
     session_data['output_audio_file'] = None
     # Clear audio player and return updated state
     return gr.update(value=None), session_data
