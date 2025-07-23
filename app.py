@@ -170,10 +170,11 @@ def processMessage(message, chatbot_history):
      yield "", chatbot_history
 
 # Function to process audio messages from the user
-def processAudio(audio_base64, chatbot_history):
+def processAudio(audio_base64, chatbot_history, session_data):
     # Generate a unique ID for temporary audio files
     unique_id = uuid.uuid4()
-    temp_audio_file = f"audio/temp_input_audio_{unique_id}.wav"
+    temp_input_audio_file = f"audio/temp_input_audio_{unique_id}.wav"
+    temp_output_audio_file = f"audio/temp_output_audio_{unique_id}.wav"
     sample_rate = 16000 # Define the sample rate for audio processing
 
     try:
@@ -182,20 +183,20 @@ def processAudio(audio_base64, chatbot_history):
         # Convert bytes to a NumPy float32 array
         audio_np_array = np.frombuffer(audio_bytes, dtype=np.float32)
         # Write the NumPy array to a WAV file
-        sf.write(temp_audio_file, audio_np_array, sample_rate)
-        logging.info(f"User audio saved to {temp_audio_file}")
+        sf.write(temp_input_audio_file, audio_np_array, sample_rate)
+        logging.info(f"User audio saved to {temp_input_audio_file}")
     except Exception as e:
         logging.error(f"Error saving audio file: {e}")
         # Clear the audio input and update chat history with an error message
         chatbot_history.append({"role": "assistant", "content": "There was an issue processing your audio input."})
-        yield None, chatbot_history
+        yield None, chatbot_history, session_data
         return
 
     # Transcribe audio using Groq's Speech-to-Text
     transcribed_text = ""
     try:
         # Open the temporary audio file for transcription
-        with open(temp_audio_file, "rb") as file:
+        with open(temp_input_audio_file, "rb") as file:
             # Call Groq's Speech-to-Text API
             transcription = client.audio.transcriptions.create(
                 file=file,
@@ -210,8 +211,8 @@ def processAudio(audio_base64, chatbot_history):
                     logging.info(f"High no-speech probability ({no_speech_prob}) detected. Returning empty transcription.")
                     # Add a message to the chatbot history indicating no speech
                     chatbot_history.append({"role": "assistant", "content": "I didn't detect any clear speech. Could you please try again?"})
-                    yield None, chatbot_history # Clear the audio and update chatbot
-                    os.remove(temp_audio_file) # Clean up temp file
+                    yield None, chatbot_history, session_data # Clear the audio and update chatbot
+                    os.remove(temp_input_audio_file) # Clean up temp file
                     return
 
             transcribed_text = transcription.text.strip()
@@ -219,17 +220,17 @@ def processAudio(audio_base64, chatbot_history):
     except Exception as e:
         logging.error(f"Error during audio transcription: {e}")
         chatbot_history.append({"role": "assistant", "content": "I had trouble understanding that. Could you please repeat?"})
-        yield None, chatbot_history
-        if os.path.exists(temp_audio_file):
-            os.remove(temp_audio_file)
+        yield None, chatbot_history, session_data
+        if os.path.exists(temp_input_audio_file):
+            os.remove(temp_input_audio_file)
         return
     finally:
-        if os.path.exists(temp_audio_file):
-            os.remove(temp_audio_file)
+        if os.path.exists(temp_input_audio_file):
+            os.remove(temp_input_audio_file)
     # Append the transcribed text to the chat history as a user message
     chatbot_history.append({"role": "user", "content": transcribed_text})
-    # Yield to clear the audio input and update the chatbot display
-    yield None, chatbot_history
+    # Yield to clear the audio input and update the chatbot
+    yield None, chatbot_history, session_data
 
     # Send to LLM to process 
     llm_response_text = ""
@@ -250,7 +251,7 @@ def processAudio(audio_base64, chatbot_history):
     
     # Append the LLM's response to the chat history
     chatbot_history.append({"role": "assistant", "content": llm_response_text})
-    yield None, chatbot_history
+    yield None, chatbot_history, session_data
 
     # Convert LLM response to speech using Groq's Text-to-Speech 
     generated_audio = None
@@ -262,26 +263,40 @@ def processAudio(audio_base64, chatbot_history):
                 input=llm_response_text,
                 response_format="wav"
         )
-        # Read the audio content bytes from the Groq API response
-        audio_content_bytes = response.read()
-        # Create an in-memory binary stream from the audio bytes, allowing soundfile to read it 
-        audio_stream = io.BytesIO(audio_content_bytes)
-        # Read audio data and sample rate for Gradio playback
-        data, fs = sf.read(audio_stream, dtype='float32')
-        generated_audio = (fs, data)
+        # Write the audio content to the temporary output audio file
+        response.write_to_file(temp_output_audio_file)
+        # Pass the file to Gradio output
+        generated_audio = temp_output_audio_file
+        # Store in session state
+        session_data['output_audio_file'] = temp_output_audio_file
         logging.info("Text-to-Speech audio generated successfully.")
     except Exception as e:
         logging.error(f"Error during Text-to-Speech generation: {e}")
-        # Optionally, update chatbot with a message about TTS failure
+        # Update chatbot with a message about TTS failure
         chatbot_history.append({"role": "assistant", "content": "I couldn't generate speech for my last message."})
-        yield None, chatbot_history
+        yield None, chatbot_history, session_data
         return
 
-    # Return the generated audio for playback and the updated chatbot history
-    yield generated_audio, chatbot_history
+    # Return the generated audio for playback, the updated chatbot history and the updated session
+    yield generated_audio, chatbot_history, session_data
+
+# Audio cleanup function that receives the session data
+def cleanup_session_audio(session_data):
+    file_to_delete = session_data.get('output_audio_file')
+    if file_to_delete and os.path.exists(file_to_delete):
+        os.remove(file_to_delete)
+        logging.info(f"Deleted temporary output audio file for session: {file_to_delete}")
+    else:
+        logging.error(f"Could not delete temporary output audio file for session: {file_to_delete} (file not found or path invalid)")
+    # Clear the stored path after deletion
+    session_data['output_audio_file'] = None
+    # Clear audio player and return updated state
+    return gr.update(value=None), session_data
 
 # Gradio user interface definition
 with gr.Blocks(theme=gr.themes.Soft(), js=js, css=css) as demo:
+    # Initialize session state (a dictionary to store session-specific data)
+    session_data = gr.State({})
     # Hidden Textbox to receive Base64 encoded audio from frontend JavaScript
     audio_text_input_box = gr.Textbox(elem_id="audio_input_text", elem_classes=["audio_input_text_css"])
     # Buttons to control visibility of microphone images, triggered by JavaScript
@@ -353,13 +368,13 @@ with gr.Blocks(theme=gr.themes.Soft(), js=js, css=css) as demo:
     )
     audio_text_input_box.input(
         fn=processAudio,
-        inputs=[audio_text_input_box, chatbot],
-        outputs=[output_audio, chatbot]
+        inputs=[audio_text_input_box, chatbot, session_data],
+        outputs=[output_audio, chatbot, session_data]
     )
     output_audio.stop( 
-        fn=lambda: gr.update(value=None),
-        inputs=None,
-        outputs=output_audio
+        fn=cleanup_session_audio,
+        inputs=[session_data],
+        outputs=[output_audio, session_data]
     )
 # Launch the Gradio interface
 if __name__ == "__main__":
