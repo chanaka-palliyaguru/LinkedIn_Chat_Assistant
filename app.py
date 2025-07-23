@@ -306,6 +306,8 @@ with gr.Blocks(theme=gr.themes.Soft(), js=js, css=css) as demo:
             interactive=False, 
             show_label=False,
             show_download_button=False,
+            show_fullscreen_button=False,
+            show_share_button=False,
             visible=True,
             height=40, width=40,
             scale=1
@@ -316,6 +318,8 @@ with gr.Blocks(theme=gr.themes.Soft(), js=js, css=css) as demo:
             interactive=False, 
             show_label=False,
             show_download_button=False,
+            show_fullscreen_button=False,
+            show_share_button=False,
             visible=False, 
             height=40, width=40,
             scale=1
