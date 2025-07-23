@@ -2,22 +2,22 @@
 An AI-powered LinkedIn chat assistant built with Groq and Gradio that acts as a digital version of myself. Users can interact with the assistant to learn about my career, professional background, skills, and experiences in a conversational format.
 
 ## Features
-Conversational AI: Interact with the AI assistant as if it was talking to another person.
-Text and Voice Input: Ask questions via text or by speaking directly to the assistant.
-Voice Activity Detection (VAD): Automatically detects speech segments for efficient audio processing.
-Real-time Transcription: Transcribes spoken questions into text using Groq's STT.
-Intelligent Responses: Generates accurate and concise answers based on the provided profile context using Groq's LLMs.
-Natural Voice Output: Converts AI responses into natural-sounding speech using Groq's TTS.
-Gradio Interface: User-friendly web interface for easy interaction.
+- Conversational AI: Interact with the AI assistant as if it was talking to another person.
+- Text and Voice Input: Ask questions via text or by speaking directly to the assistant.
+- Voice Activity Detection (VAD): Automatically detects speech segments for efficient audio processing.
+- Real-time Transcription: Transcribes spoken questions into text using Groq's STT.
+- Intelligent Responses: Generates accurate and concise answers based on the provided profile context using Groq's LLMs.
+- Natural Voice Output: Converts AI responses into natural-sounding speech using Groq's TTS.
+- Gradio Interface: User-friendly web interface for easy interaction.
 
 ## Technologies Used
-Gradio: For building the interactive web UI.
-Groq API:
-  Chat Completions: For LLM interactions (llama-3.3-70b-versatile).
-  Speech-to-Text: For transcribing user audio (whisper-large-v3-turbo).
-  Text-to-Speech: For generating audio responses (playai-tts).
-Python: The core programming language.
-JavaScript (Frontend): Utilizes onnxruntime-web and @ricky0123/vad-web for browser-side VAD and audio processing.
+- Gradio: For building the interactive web UI.
+- Groq API:
+  - Chat Completions: For LLM interactions (llama-3.3-70b-versatile).
+  - Speech-to-Text: For transcribing user audio (whisper-large-v3-turbo).
+  - Text-to-Speech: For generating audio responses (playai-tts).
+- Python: The core programming language.
+- JavaScript (Frontend): Utilizes onnxruntime-web and @ricky0123/vad-web for browser-side VAD and audio processing.
 
 ## Setup and Installation
 Follow these steps to get the chat assistant up and running.
