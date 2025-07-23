@@ -34,7 +34,7 @@ Follow these steps to get the chat assistant up and running.
 
 ## Running the Application
 Once you have completed the setup, you can launch the Gradio interface.
-  - run `python app.py`
+  - Run `python app.py`
 The application will typically run on http://127.0.0.1:7860/ or a similar local address, which will be displayed in your      terminal. Open this URL in your web browser to start interacting with the AI chat assistant.
 
 ## Usage
