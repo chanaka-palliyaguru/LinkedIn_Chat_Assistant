@@ -281,7 +281,7 @@ def processAudio(audio_base64, chatbot_history, session_data):
     yield generated_audio, chatbot_history, session_data
 
 # Audio cleanup function that receives the session data
-def cleanup_session_audio(session_data):
+def cleanupSessionAudio(session_data):
     file_to_delete = session_data.get('output_audio_file')
     if file_to_delete and os.path.exists(file_to_delete):
         os.remove(file_to_delete)
@@ -372,7 +372,7 @@ with gr.Blocks(theme=gr.themes.Soft(), js=js, css=css) as demo:
         outputs=[output_audio, chatbot, session_data]
     )
     output_audio.stop( 
-        fn=cleanup_session_audio,
+        fn=cleanupSessionAudio,
         inputs=[session_data],
         outputs=[output_audio, session_data]
     )
