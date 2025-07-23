@@ -22,20 +22,19 @@ An AI-powered LinkedIn chat assistant built with Groq and Gradio that acts as a 
 ## Setup and Installation
 Follow these steps to get the chat assistant up and running.
 1. Clone the Repository
-  git clone https://github.com/chanaka-palliyaguru/LinkedIn_Chat_Assistant.git
-  cd LinkedIn_Chat_Assistant
-2. Create a Virtual Environment
-  python -m venv venv
-  source venv/bin/activate  # On Windows: `venv\Scripts\activate`
+  - git clone https://github.com/chanaka-palliyaguru/LinkedIn_Chat_Assistant.git
+  - cd LinkedIn_Chat_Assistant
+2. Create and activate the Virtual Environment
+  - python -m venv venv
+  - source `venv/bin/activate`  # On Windows: `venv\Scripts\activate`
 3. Install Dependencies
-  pip install -r requirements.txt
+  - pip install -r requirements.txt
 4. Configure Environment Variables
-  Create a .env file in the root directory of your project and add your Groq API key:
-  GROQ_API_KEY="your_groq_api_key_here"
+  - Create a .env file in the root directory of your project and add your Groq API key: GROQ_API_KEY="your_groq_api_key_here"
 
 ## Running the Application
 Once you have completed the setup, you can launch the Gradio interface.
-  - run python app.py
+  - run `python app.py`
 The application will typically run on http://127.0.0.1:7860/ or a similar local address, which will be displayed in your      terminal. Open this URL in your web browser to start interacting with the AI chat assistant.
 
 ## Usage
